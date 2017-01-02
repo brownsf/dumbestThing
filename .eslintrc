@@ -1,0 +1,79 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "comma-dangle": [
+      2,
+      "always-multiline",
+    ],
+    'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": { "var": 2, "let": 2, "const": 3}
+      }
+    ],
+    "quotes": [
+      0,
+      "single",
+      "avoid-escape"
+    ],
+    "func-names": [
+      0,
+    ],
+    "arrow-body-style": [
+      0,
+      "as-needed",
+    ],
+    "radix": [
+      0,
+      "as-needed",
+    ],
+    "no-multi-spaces": [
+      1,
+      {
+        "exceptions": {
+          "VariableDeclarator": true
+        }
+      }
+    ],
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "no-unused-vars": [
+      2,
+      {
+        "vars": "all",
+        "varsIgnorePattern": "React|PropTypes|styles"
+      }
+    ],
+    "semi": [
+      2,
+      "always",
+    ]
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "mocha": true,
+    "node": true,
+  },
+  "ecmaFeatures": {
+    "jsx": true,
+    "experimentalObjectRestSpread": true,
+    "modules": true,
+  },
+  "globals": {
+    __DEV__: true,
+    __RELEASE__: true,
+    $: true,
+    Routing: true,
+  },
+  "plugins": [
+    "react"
+  ]
+}
