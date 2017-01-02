@@ -15,20 +15,53 @@ export default class Quotes extends React.Component {
   // It will also get fired again if one of the first two dinosaurs is
   // removed from the data set, as a new dinosaur will now be the second
   // shortest.
-      console.log('snap', data.val());
-      this.props.actions.quote.addQuote(data.val());
+      console.log('snap', data);
+      this.props.actions.quote.addQuote(data);
     });
   }
   addQuote = () => {
     return this.props.actions.nav.changePage('Add', 'Add Quotes');
   }
+  vote = (quote) => {
+    const { text, author, timestamp } = quote.val();
+    let { votes } = quote.val();
+    if (isNaN(votes)) {
+      votes = 1;
+    } else {
+      votes += 1;
+    }
+
+    const postData = {
+      text,
+      author,
+      votes,
+      timestamp,
+    };
+
+    const user = firebase.auth().currentUser;
+    const uid = user.uid;
+    const updates = {};
+    console.log('postData', postData);
+    updates[`/quotes/${quote.key}`] = postData;
+    const voterData = {
+      quote: quote.key,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+    };
+    console.log('voterData', voterData);
+    updates[`/user-votes/${uid}`] = voterData;
+
+    firebase.database().ref().update(updates).catch((error) => {
+      console.log('error', error)
+    });
+  }
   render() {
     console.log('props', this.props);
-    const list = this.props.quotes.map((quote, index) => {
+    const list = this.props.quotes.reverse().map((quote, index) => {
       return (
-        <CardItem key={index}>
-          <Text>{quote.text}</Text>
-          <Text note>{quote.author}</Text>
+        <CardItem onPress={() => { this.vote(quote); }} button key={index}>
+          <Text>{quote.val().text}</Text>
+          <Text note>{quote.val().author}</Text>
+          <Text note>{quote.val().votes}</Text>
         </CardItem>);
     });
 
